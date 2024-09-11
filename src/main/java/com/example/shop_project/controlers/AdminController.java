@@ -4,6 +4,7 @@ import com.example.shop_project.exception.CustomException;
 import com.example.shop_project.jwt.AuthenticationRequest;
 import com.example.shop_project.jwt.AuthenticationResponse;
 import com.example.shop_project.jwt.JwtUtils;
+import com.example.shop_project.login.LoginRequest;
 import com.example.shop_project.models.*;
 import com.example.shop_project.repositories.SaleRepo;
 import com.example.shop_project.services.AdminService;
@@ -38,10 +39,10 @@ public class AdminController extends ClientController{
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws CustomException {
         adminService = (AdminService) loginManager.login(authenticationRequest.getEmail(), authenticationRequest.getPassword(), CustomerType.Administrator);
         if(adminService != null) {
-           String token = jwtUtils.generateToken(authenticationRequest, CustomerType.Administrator);
-            return ResponseEntity.ok(new AuthenticationResponse(token));
+          // String token = jwtUtils.generateToken(authenticationRequest, CustomerType.Administrator);
+            return ResponseEntity.ok("Login successful");
         } else {
-            return new ResponseEntity<String>("Invalid Email or Password...", HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
 
